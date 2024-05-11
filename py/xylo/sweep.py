@@ -23,6 +23,6 @@ def sweep(wood: t.Wood, bar: t.BarProps, sections: t.Sections, sweep_opts: t.Fre
     # plt.plot(sweep, recepts)
     # print(jnp.min(recepts), jnp.max(recepts))
 
-    brackets = ff.bracket(sweep, recepts)
-    freqs = jax.vmap(lambda br: ff.find_freq(wood, bar, sections, br))(brackets)
+    brackets = ff.bracket(sweep, recepts, size = sweep_opts.num_harmonics)
+    freqs = jax.vmap(lambda br: ff.find_freq(wood, bar, sections, br, iters = sweep_opts.bisect_iters))(brackets)
     return SweepResult(sweep = sweep, recepts = recepts, harmonics = freqs)

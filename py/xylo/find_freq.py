@@ -25,8 +25,8 @@ def bracket(sweep: jnp.ndarray, recepts: jnp.ndarray, size = 3):
 def find_freq(wood: t.Wood, bar: t.BarProps, sections: t.Sections, bracket: jnp.ndarray, iters = 40):
   wlo = bracket[0]
   whi = bracket[1]
-  ylo = r.receptance_scalar(wood, bar, sections, 2 * jnp.pi * wlo)
-  yhi = r.receptance_scalar(wood, bar, sections, 2 * jnp.pi * whi)
+  # ylo = r.receptance_scalar(wood, bar, sections, 2 * jnp.pi * wlo)
+  # yhi = r.receptance_scalar(wood, bar, sections, 2 * jnp.pi * whi)
 
   estimate = whi
   dw = wlo - whi

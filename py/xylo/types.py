@@ -70,6 +70,7 @@ class FrequencySweep(NamedTuple):
     stop_freq: float
     num_freq: int
     bisect_iters: int
+    num_harmonics: int = 3
 
     def sweep(self):
         return jnp.logspace(jnp.log10(self.start_freq), jnp.log10(self.stop_freq), self.num_freq)
