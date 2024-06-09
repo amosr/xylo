@@ -8,11 +8,13 @@ import matplotlib.pyplot as plt
 
 class Tool(typing.NamedTuple):
   radius: float # mm
-  plunge: float # mm/s
-  cut: float # mm/s
+  plunge: float # mm/m
+  cut: float # mm/m
+  move: float # mm/m
   spindle: float # rpm?
 
   passX: float # mm
+  passY: float # mm
   passZ: float # mm
 
 class Slicer(typing.NamedTuple):
@@ -28,15 +30,15 @@ class Slicer(typing.NamedTuple):
 
   def plot_outline(self, outline, dmax=32):
     (xs, ys) = outline
-    ys = ys + self.tool.radius
+    ys = ys + self.tool.radius / 1000
     plt.scatter(xs, ys, s = 0.1, c = 'red')
 
     xss = []
     yss = []
     for d in range(0, dmax):
       dd = d / dmax
-      xd = jnp.sin(dd * jnp.pi * 2) * self.tool.radius
-      yd = jnp.cos(dd * jnp.pi * 2) * self.tool.radius
+      xd = jnp.sin(dd * jnp.pi * 2) * self.tool.radius / 1000
+      yd = jnp.cos(dd * jnp.pi * 2) * self.tool.radius / 1000
       xss.append(xs + xd)
       yss.append(ys + yd)
     plt.scatter(jnp.concat(xss), jnp.concat(yss), s = 0.1, c = 'green')
@@ -45,6 +47,7 @@ class Slicer(typing.NamedTuple):
   #   gr = jnp.gradient(sec.depths)
   #   return (sec.xmids, sec.depths + self.tool.radius)
 
+  # side-on cutting path
   def path(self, bar: xylo.types.BarProps, outline, precut = None):
     (xs, ys) = outline
     xs = (xs + bar.length / 2) * 1000
@@ -81,5 +84,61 @@ class Slicer(typing.NamedTuple):
 
     return builder
 
-tool8 = Tool(radius = 25.4 / 8 / 1000 / 2, plunge = 12, cut = 26, spindle = 10000, passX = 1.5, passZ = 1.5)
+  # top-down cutting path
+  def topdown_depths(self, bar: xylo.types.BarProps, outline, precut = None):
+    (xs, ys) = outline
+    xs = (xs + bar.length / 2) * 1000
+    ys = (bar.depth - ys) * 1000
+    ysprecut = jnp.full_like(ys, 0) if precut is None else ((bar.depth - precut[1]) * 1000)
+    x0 = xs[0]
+    xS = xs[1] - x0
+    xN = xs[-1]
+
+    dxs = []
+    dds = []
+    d0s = []
+    for x in jnp.arange(x0, xN+self.tool.passX, self.tool.passX):
+      ix_pre = max(0, int((x - x0 - self.tool.radius) / xS))
+      ix_pst = int((x - x0 + self.tool.radius) / xS) + 1
+      d = jnp.min(ys[ix_pre:ix_pst])
+      d0 = jnp.min(ysprecut[ix_pre:ix_pst])
+      dxs.append(x)
+      dds.append(d)
+      d0s.append(d0)
+    return (dxs, dds, d0s)
+
+  # top-down cutting path
+  def path_topdown(self, bar: xylo.types.BarProps, outline, precut = None):
+    (dxs, dds, d0s) = self.topdown_depths(bar, outline, precut)
+    x0 = dxs[0]
+    xN = dxs[-1]
+
+    builder = xylo.gcode.builder.Builder()
+    builder.c('G92', X = x0, Y = 0, Z = 0)
+    # builder.move(X = x0, Y = 0, Z = 0)
+
+    pred = 0
+    prex = x0 - self.tool.passX
+    for i in range(0, len(dxs)):
+      x  = dxs[i]
+      d  = -dds[i]
+      d0 = -d0s[i]
+      builder.comment(f'x {x}')
+      yrng = jnp.arange(0, bar.width * 1000, self.tool.passY)
+      if i % 2 == 1: yrng = jnp.flip(yrng)
+
+      for y in yrng:
+        builder.move(X = x, Y = y, Z = d0, F = self.tool.move)
+        builder.cut(X = x, Y = y, Z = d, F = self.tool.plunge)
+        builder.cut(X = prex, Y = y, Z = pred, F = self.tool.cut)
+        builder.move(X = prex, Y = y, Z = d0, F = self.tool.move)
+
+      prex = x
+      pred = d
+
+    return builder
+
+
+tool8 = Tool(radius = 25.4 / 8 / 2, plunge = 800, cut = 2000, move = 2000, spindle = 10000, passX = 2.0, passY=1.5, passZ = 1.5)
+# tool8 = Tool(radius = 25.4 / 8 / 1000 / 2, plunge = 50, cut = 100, spindle = 10000, passX = 1.5, passZ = 1.5)
 slicer8 = Slicer(tool8)
