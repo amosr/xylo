@@ -6,6 +6,8 @@ import scipy
 import wave
 import math
 
+import os
+
 format     = pyaudio.paFloat32
 rate       = 44100
 channels   = 1
@@ -63,3 +65,16 @@ def plot_spectrum(arr: np.ndarray, height: float = 30.0, distance: float = 2000,
   print(freqs[pk], freqs[pk] / freqs[pk][0])
   print(d)
   plt.xticks(freqs[pk], freqs[pk].astype('int'))
+
+def print_spectrum(arr: np.ndarray, height: float = 30.0, distance: float = 2000, prominence: float = 30.0, take_freqs: int = 40000):
+  (Aa, pk, d) = spectrum(arr, height, distance, prominence, take_freqs)
+  freqs = np.fft.rfftfreq(len(arr), 1 / rate)
+
+  print(freqs[pk], freqs[pk] / freqs[pk][0])
+
+def list_spectrum(dir = 'data/wav', **kwargs):
+  for fp in sorted(os.listdir(dir)):
+    if fp.startswith('tonebar') and fp.endswith('.wav'):
+      w = read_wave(fp)
+      print(fp)
+      print_spectrum(w, **kwargs)

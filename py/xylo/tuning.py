@@ -3,7 +3,7 @@ import math
 import typing
 
 notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
-notes88 = [(notes[(i - 40) % 12] + str((i+8) // 12)) for i in range(1,89)]
+notes88 = [(notes[(i - 40) % 12] + str((i+8) // 12)) for i in range(0,89)]
 
 class Chromatic(typing.NamedTuple):
   reference: int
@@ -53,6 +53,7 @@ yamaha_YX500R = Manual(bright, {
     64: 0.270,
     65: 0.265,
     66: 0.260,
+    67: 0.255,
     68: 0.250,
     69: 0.240,
     70: 0.235,

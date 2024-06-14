@@ -139,6 +139,6 @@ class Slicer(typing.NamedTuple):
     return builder
 
 
-tool8 = Tool(radius = 25.4 / 8 / 2, plunge = 800, cut = 2000, move = 2000, spindle = 10000, passX = 2.0, passY=1.5, passZ = 1.5)
+tool8 = Tool(radius = 25.4 / 8 / 2, plunge = 500, cut = 1200, move = 2000, spindle = 10000, passX = 2.0, passY=1.5, passZ = 1.5)
 # tool8 = Tool(radius = 25.4 / 8 / 1000 / 2, plunge = 50, cut = 100, spindle = 10000, passX = 1.5, passZ = 1.5)
 slicer8 = Slicer(tool8)
