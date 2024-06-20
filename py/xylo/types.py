@@ -76,4 +76,5 @@ class FrequencySweep(NamedTuple):
         return jnp.logspace(jnp.log10(self.start_freq), jnp.log10(self.stop_freq), self.num_freq)
 
 
-sweep_default = FrequencySweep(start_freq = 100, stop_freq = 10000, num_freq = 600, bisect_iters = 40)
+# C8 is 4KHz and we tune to sixth partial, so run sweep to around 30KHz
+sweep_default = FrequencySweep(start_freq = 100, stop_freq = 30000, num_freq = 100, bisect_iters = 16)

@@ -2,3 +2,4 @@
 .ipynb_checkpoints
 jupyter.sh
 __pycache__
+.DS_Store

@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import scipy
+import scipy.signal
 import wave
 import math
 
@@ -51,7 +52,7 @@ def write_wave(fp, arr, prefix='data/wav/'):
 def spectrum(arr: np.ndarray, height: float = 30.0, distance: float = 2000, prominence: float = 30.0, take_freqs: int = 40000):
   A = np.fft.rfft(arr * np.hamming(len(arr)))
   Aa = np.abs(A)
-  Aa = Aa[0:40000]
+  Aa = Aa[0:take_freqs]
 
   (pk,d) = scipy.signal.find_peaks(Aa,  height = height, distance = distance, prominence = prominence)
   return (Aa, pk, d)
@@ -78,3 +79,28 @@ def list_spectrum(dir = 'data/wav', **kwargs):
       w = read_wave(fp)
       print(fp)
       print_spectrum(w, **kwargs)
+
+
+def spectrum_diff(arr1: np.ndarray, arr2: np.ndarray, height: float = 30.0, distance: float = 2000, prominence: float = 30.0, take_freqs: int = 40000, width: float = 1, plot: bool = False):
+  (Aa1, pk1, d1) = spectrum(arr1, height, distance, prominence, take_freqs)
+  (Aa2, pk2, d2) = spectrum(arr2, height, distance, prominence, take_freqs)
+
+  Aa1 = Aa1 / np.linalg.norm(Aa1)
+  Aa2 = Aa2 / np.linalg.norm(Aa2)
+
+  Aa  = Aa1 + Aa2
+
+  (pk,d) = scipy.signal.find_peaks(Aa, height = height, distance = distance, prominence = prominence, width = width)
+
+  freqs = np.fft.rfftfreq(len(arr1), 1 / rate)
+
+  if plot:
+    plt.plot(freqs[0:len(Aa)], Aa, color = 'red')
+    plt.plot(freqs[0:len(Aa)], Aa1, color = 'blue')
+    plt.plot(freqs[0:len(Aa)], Aa2, color = 'green')
+
+    print(freqs[pk])
+    print(d)
+    plt.xticks(freqs[pk], freqs[pk].astype('int'))
+
+  return freqs[pk], d
