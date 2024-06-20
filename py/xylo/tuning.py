@@ -26,6 +26,15 @@ class Manual(typing.NamedTuple):
   def note_to_name(self, note):
     return notes88[note]
 
+  def note_to_weights(self, note):
+    fdl = self.note_to_freq(note)
+    return ([1.0, 3, 6], [self.weight(fdl) * 1.0, self.weight(fdl * 3) * 0.3, self.weight(fdl * 6) * 0.1])
+  def weight(self, freq):
+    # 1 for frequencies below 10KHz
+    # linear scale from 10KHz to 20KHz
+    # 0 for frequencies above 20KHz
+    return min(1.0, max(0.0, (20000 - freq) / 10000))
+
 concert = Chromatic(49, 440, 12, notes88)
 bright = concert._replace(reference_hz = 442)
 

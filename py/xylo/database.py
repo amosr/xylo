@@ -35,6 +35,9 @@ class Database:
   def get_geometry(self, note):
     return self.geometries[note]
 
+  def get_bar(self, note, **kwargs):
+    return self.geometries[note].to_bar(**kwargs)
+
   def get_wood(self, note, base: t.Wood = t.Wood.make_E_nu(E = 24.1e9, nu = 6.5, rho = 1000), coeffs = None):
     # json dumb, keys are strings
     match coeffs:
@@ -63,7 +66,7 @@ class Database:
 
   def set_best_for_dims(self, note, num_dims, coeffs, loss):
     n = self.notes[str(note)]
-    s = n['splines'].setdefault(str(num_dims), { 'coeff': coeffs, 'loss': loss })
+    s = n['coeffs'].setdefault(str(num_dims), { 'coeff': coeffs, 'loss': loss })
     if s['loss'] > loss:
       s['coeff'] = coeffs
       s['loss'] = loss
@@ -86,7 +89,7 @@ class Database:
 
   def to_file(self, fp = 'data/db.json'):
     with open(fp, 'w') as f:
-      json.dump(self.to_obj(), f)
+      json.dump(self.to_obj(), f, indent=2, sort_keys=True)
 
 geometries = {
   # naturals
