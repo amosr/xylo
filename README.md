@@ -14,7 +14,7 @@ source .venv/bin/activate
 # Install dependencies
 pip3 install jupyter matplotlib
 pip3 install scipy numpy jax optimistix
-pip3 install jsonpickle
+pip3 install evosax jax_cosmo
 ```
 
 
