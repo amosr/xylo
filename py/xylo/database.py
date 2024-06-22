@@ -40,9 +40,8 @@ class Database:
 
   def get_wood(self, note, base: t.Wood = t.Wood.make_E_nu(E = 24.1e9, nu = 6.5, rho = 1000), coeffs = None):
     # json dumb, keys are strings
-    match coeffs:
-      case None:
-        coeffs = self.notes[str(note)]['wood']
+    if coeffs is None:
+      coeffs = self.notes[str(note)]['wood']
     return self.geometries[note].to_wood(base, coeffs)
 
   def set_wood(self, note, coeffs):
@@ -58,11 +57,11 @@ class Database:
 
   def get_best_for_dims(self, note, num_dims):
     n = self.notes[str(note)]
-    match n['coeffs'].get(str(num_dims)):
-      case None:
-        return None
-      case e:
-        return e['coeff']
+    c = n['coeffs'].get(str(num_dims))
+    if c is None:
+      return None
+    else:
+      return c['coeff']
 
   def set_best_for_dims(self, note, num_dims, coeffs, loss):
     n = self.notes[str(note)]
