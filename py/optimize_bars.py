@@ -23,9 +23,10 @@ for num_dims in range(3,10):
   options = xylo.opt.Options(num_generations = 10, strategy = evosax.OpenES(popsize = 3000, num_dims = num_dims), absolute_tolerance = 1e-2)
   init_mean = None
 
-  for note in range(88, 56, -1):
+  for note in range(86, 56, -1):
   # for note in range(57, 89):
   # for note in range(70, 89):
+  # for note in [87]:
     db = xylo.database.get()
     best = db.get_best_for_dims(note, num_dims)
     if best is not None:
