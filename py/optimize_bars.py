@@ -19,29 +19,30 @@ import xylo.database
 
 tuning = xylo.tuning.yamaha_YX500R
 
-for note in range(86, 56, -1):
-  for num_dims in range(3,10):
-    options = xylo.opt.Options(num_generations = 10, strategy = evosax.OpenES(popsize = 3000, num_dims = num_dims), absolute_tolerance =  1e-2)
-    db = xylo.database.get()
-    best = db.get_best_for_dims(note, num_dims)
-    options_ = options._replace(init_mean = best)
-
-    bar = db.get_bar(note)
-    wood = db.get_wood(note)
-
-    fundamental = tuning.note_to_freq(note)
-    partials, weights = tuning.note_to_weights(note)
-    sol = xylo.opt.optimize_geometry(bar, wood, options_, fundamental, jnp.array(partials), jnp.array(weights))
-    spline = sol.best_member
-
-    xylo.database.with_db(lambda db: db.set_best_for_dims(note, num_dims, sol.best_member.tolist(), sol.best_fitness.tolist()))
-
-    init_mean = sol.best_member
-
-    sections = xylo.cut.spline(bar, spline)
-    swp = xylo.sweep.sweep(wood, bar, sections, t.sweep_default)
-
-    print(note)
-    print(f"--------------- (loss {sol.best_fitness})")
-    print(swp.harmonics / fundamental)
-    print("")
+while True:
+    for note in range(71, 56, -1):
+      for num_dims in range(3,10):
+        options = xylo.opt.Options(num_generations = 10, strategy = evosax.OpenES(popsize = 3000, num_dims = num_dims), absolute_tolerance =  1e-2)
+        db = xylo.database.get()
+        best = db.get_best_for_dims(note, num_dims)
+        options_ = options._replace(init_mean = best)
+    
+        bar = db.get_bar(note)
+        wood = db.get_wood(note)
+    
+        fundamental = tuning.note_to_freq(note)
+        partials, weights = tuning.note_to_weights(note)
+        sol = xylo.opt.optimize_geometry(bar, wood, options_, fundamental, jnp.array(partials), jnp.array(weights))
+        spline = sol.best_member
+    
+        xylo.database.with_db(lambda db: db.set_best_for_dims(note, num_dims, sol.best_member.tolist(), sol.best_fitness.tolist()))
+    
+        init_mean = sol.best_member
+    
+        sections = xylo.cut.spline(bar, spline)
+        swp = xylo.sweep.sweep(wood, bar, sections, t.sweep_default)
+    
+        print(note)
+        print(f"--------------- (loss {sol.best_fitness})")
+        print(swp.harmonics / fundamental)
+        print("")
