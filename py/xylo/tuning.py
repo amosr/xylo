@@ -33,6 +33,8 @@ class Manual(typing.NamedTuple):
     # 1 for frequencies below 5KHz
     # linear scale from 5KHz to 15KHz
     # 0 for frequencies above 15KHz
+    # based very loosely on http://supermediocre.org/wp-content/uploads/2015/10/Kori_tuning.png
+    # which shows that it gets too difficult to tune even 3x at around C6~1051Hz
     return min(1.0, max(0.0, (15000 - freq) / 10000))
 
 concert = Chromatic(49, 440, 12, notes88)

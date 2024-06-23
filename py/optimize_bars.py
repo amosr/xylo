@@ -19,7 +19,7 @@ import xylo.database
 
 tuning = xylo.tuning.yamaha_YX500R
 
-for num_dims in range(8,10):
+for num_dims in range(3,10):
   options = xylo.opt.Options(num_generations = 10, strategy = evosax.OpenES(popsize = 3000, num_dims = num_dims), absolute_tolerance = 1e-2)
   init_mean = None
 
