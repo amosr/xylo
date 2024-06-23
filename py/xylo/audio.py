@@ -76,7 +76,7 @@ def print_spectrum(arr: np.ndarray, height: float = 30.0, distance: float = 2000
 def list_spectrum(dir = 'data/wav', **kwargs):
   for fp in sorted(os.listdir(dir)):
     if fp.startswith('tonebar') and fp.endswith('.wav'):
-      w = read_wave(fp)
+      w = read_wave(fp, prefix=dir + '/')
       print(fp)
       print_spectrum(w, **kwargs)
 
