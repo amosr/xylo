@@ -22,7 +22,7 @@ tuning = xylo.tuning.yamaha_YX500R
 while True:
     for note in range(71, 56, -1):
       for num_dims in range(3,10):
-        options = xylo.opt.Options(num_generations = 10, strategy = evosax.OpenES(popsize = 3000, num_dims = num_dims), absolute_tolerance =  1e-2)
+        options = xylo.opt.Options(num_generations = 10, strategy = evosax.OpenES(popsize = 2000, num_dims = num_dims), absolute_tolerance =  1e-2)
         db = xylo.database.get()
         best = db.get_best_for_dims(note, num_dims)
         options_ = options._replace(init_mean = best)
