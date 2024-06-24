@@ -146,6 +146,9 @@ class Slicer(typing.NamedTuple):
       pred = d
 
     builder.move(Z = self.tool.liftZ)
+    builder.c('M05')
+    builder.move(Y = -self.tool.radius)
+    builder.move(X = self.tool.radius)
     return builder
 
 
