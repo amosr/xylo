@@ -70,6 +70,13 @@ class Database:
       s['coeff'] = coeffs
       s['loss'] = loss
 
+  def clear_loss(self, note):
+    n = self.notes[str(note)]
+    c = n['coeffs']
+    for d in c:
+      c[d]['loss'] = 1e10
+
+
   def from_geometries(geometries):
     notes = {}
     for k in geometries:
