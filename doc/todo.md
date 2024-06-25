@@ -25,3 +25,15 @@ See bars.ipynb
 Tung oil?
 
 ## Construct frame
+
+
+## Tasks 20240625
+* X Cut
+* X Varnish
+* Measure lengths
+* Compute geometries
+* Rough cuts
+* Find nodes
+* Fit line
+* Drill node holes
+* ???

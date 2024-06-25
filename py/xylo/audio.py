@@ -73,11 +73,11 @@ def plot_spectrum(arr: np.ndarray, height: float = 0.02, distance: float = 2000,
   print(d)
   plt.xticks(freqs[pk], freqs[pk].astype('int'))
 
-def print_spectrum(arr: np.ndarray, height: float = 30.0, distance: float = 2000, prominence: float = 30.0, take_freqs: int = 40000):
+def print_spectrum(arr: np.ndarray, height: float = 30.0, distance: float = 2000, prominence: float = 30.0, take_freqs: int = 40000, comparison_freq: float = 1.0):
   (Aa, pk, d) = spectrum(arr, height, distance, prominence, take_freqs)
   freqs = np.fft.rfftfreq(len(arr), 1 / rate)
 
-  print(freqs[pk], freqs[pk] / freqs[pk][0])
+  print(freqs[pk], freqs[pk] / comparison_freq)
 
 def list_spectrum(dir = 'data/wav', **kwargs):
   for fp in sorted(os.listdir(dir)):
