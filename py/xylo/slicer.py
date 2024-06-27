@@ -110,7 +110,7 @@ class Slicer(typing.NamedTuple):
     return (dxs, dds, d0s)
 
   # top-down cutting path
-  def path_topdown(self, bar: xylo.types.BarProps, outline, precut = None, cut_width = None):
+  def path_topdown(self, bar: xylo.types.BarProps, outline, precut = None, cut_width = None, cut_y_centre = None, x_init = None):
     (dxs, dds, d0s) = self.topdown_depths(bar, outline, precut)
     x0 = dxs[0]
     xN = dxs[-1]
@@ -118,13 +118,21 @@ class Slicer(typing.NamedTuple):
     bar_width = bar.width * 1000
     if cut_width is None:
       cut_width = bar_width
-    yrng = jnp.arange(-(bar_width / 2 - cut_width / 2), -(bar_width / 2 + cut_width / 2), -self.tool.passY)
+
+    if cut_y_centre is None:
+      cut_y_centre = bar_width / 2
+
+
+    if x_init is None:
+      x_init = self.tool.radius
+
+    yrng = jnp.arange(-(cut_y_centre - cut_width / 2), -(cut_y_centre + cut_width / 2), -self.tool.passY)
 
     builder = xylo.gcode.builder.Builder()
-    builder.c('G92', X = self.tool.radius, Y = -self.tool.radius, Z = 0)
+    builder.c('G92', X = x_init, Y = -self.tool.radius, Z = 0)
     builder.move(Z = self.tool.liftZ, F = self.tool.move)
     builder.move(X = x0)
-    builder.move(Y = -(bar_width / 2 - cut_width / 2))
+    builder.move(Y = -(cut_y_centre - cut_width / 2))
 
     pred = 0
     prex = x0 - self.tool.passX
@@ -148,10 +156,11 @@ class Slicer(typing.NamedTuple):
     builder.move(Z = self.tool.liftZ)
     builder.c('M05')
     builder.move(Y = -self.tool.radius)
-    builder.move(X = self.tool.radius)
+    builder.move(X = x_init)
     return builder
 
 
-tool8 = Tool(radius = 25.4 / 8 / 2, plunge = 500, cut = 500, move = 500, spindle = 10000, passX = 2.0, passY=1.5, passZ = 1.5, liftZ = 1.0)
+tool8 = Tool(radius = 25.4 / 8 / 2, plunge = 200, cut = 500, move = 500, spindle = 10000, passX = 1.0, passY=1.5, passZ = 1.5, liftZ = 1.0)
+# tool8 = Tool(radius = 25.4 / 8 / 2, plunge = 200, cut = 500, move = 500, spindle = 10000, passX = 2.0, passY=1.5, passZ = 1.5, liftZ = 1.0)
 # tool8 = Tool(radius = 25.4 / 8 / 1000 / 2, plunge = 50, cut = 100, spindle = 10000, passX = 1.5, passZ = 1.5)
 slicer8 = Slicer(tool8)
