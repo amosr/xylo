@@ -1,0 +1,3 @@
+* talk about harmonics being harder to tune because harmonics are already flat. does this mean we want longer bars?
+* tuning two tone bars: carving away the flat corners sharpens them; was able to salvage a bar where two corners sounded a semitone flat. one two-tone bar was a fourth above.
+* mistake with table saw: ripping 1.7m-long beam to 40mm wide, inconsistent widths. length of beam made it quite unwieldy. back table was also at incorrect height. better to crosscut to .77m then rip for more consistent width?

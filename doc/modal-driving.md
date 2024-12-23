@@ -1,0 +1,1 @@
+https://community.sw.siemens.com/s/article/Modal-Driving-Point-Survey-What-s-at-Stake
