@@ -32,6 +32,9 @@ rosewood = Wood.make_E_G(E = 23e9, G = 3.0e9, rho = 1080)
 # From Beaton and Scavone 
 aluminium = Wood.make_E_G(E = 68.9e9, G = 25.9e9, rho = 2700)
 
+# https://apacinfrastructure.com.au/material-specifications-6060-t5-aluminium-alloy
+aluminium_6060T5 = Wood.make_E_G(E = 68.9e9, G = 25.8e9, rho = 2700)
+
 
 # Test from Numerical simulations of xylophones. I. Time-domain modeling of the vibrating bars (Chaigne, Doutaut, 1997)
 # Inferred properties from supermediocre

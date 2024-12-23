@@ -3,7 +3,10 @@ import math
 import typing
 
 notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+pos =   [0,   0.5,  1,   1.5,  2,   3,   3.5,  4,   4.5,  5,  5.5, 6 ]
 notes88 = [(notes[(i - 40) % 12] + str((i+8) // 12)) for i in range(0,89)]
+pos88 = [(pos[(i - 40) % 12] + ((i+8) // 12) * 7) - 5 for i in range(0,89)]
+
 
 class Chromatic(typing.NamedTuple):
   reference: int
@@ -36,6 +39,12 @@ class Manual(typing.NamedTuple):
     # based very loosely on http://supermediocre.org/wp-content/uploads/2015/10/Kori_tuning.png
     # which shows that it gets too difficult to tune even 3x at around C6~1051Hz
     return min(1.0, max(0.0, (15000 - freq) / 10000))
+
+def note_to_x(note, relative_to = 1):
+  return pos88[note] - pos88[relative_to]
+
+def check_natural(note):
+  return not('#' in notes88[note])
 
 concert = Chromatic(49, 440, 12, notes88)
 bright = concert._replace(reference_hz = 442)
@@ -87,3 +96,6 @@ yamaha_YX500R = Manual(bright, {
     87: 0.140,
     88: 0.130
 })
+
+glock_F5_200_lengths = {57: 0.20898437500000006, 58: 0.20292968750000007, 59: 0.1970703125, 60: 0.19140625000000003, 61: 0.1859375, 62: 0.18066406250000006, 63: 0.1755859375, 64: 0.17050781250000002, 65: 0.16562500000000002, 66: 0.16093749999999998, 67: 0.15625, 68: 0.15175781250000003, 69: 0.1474609375, 70: 0.14316406250000008, 71: 0.13925781250000008, 72: 0.13515625, 73: 0.13125000000000003, 74: 0.12753906250000008, 75: 0.12382812500000002, 76: 0.12011718750000006, 77: 0.11699218750000004, 78: 0.11347656250000004, 79: 0.11035156250000003, 80: 0.10703125000000004, 81: 0.10410156250000002, 82: 0.10097656250000003, 83: 0.09804687500000002, 84: 0.09511718750000003, 85: 0.0923828125, 86: 0.08964843750000001, 87: 0.0873046875, 88: 0.0845703125}
+glock_F5_200 = Manual(bright, glock_F5_200_lengths)
