@@ -76,6 +76,9 @@ class Database:
     for d in c:
       c[d]['loss'] = 1e10
 
+  def clear_loss_all(self):
+    for n in self.notes.keys():
+      self.clear_loss(n)
 
   def from_geometries(geometries):
     notes = {}
@@ -156,14 +159,14 @@ geometries = {
 
 }
 
-def get(geometries = geometries):
+def get(geometries = geometries, fp = 'data/db.json'):
   try:
-    return Database.from_file(geometries)
+    return Database.from_file(geometries, fp)
   except FileNotFoundError:
     return Database.from_geometries(geometries)
 
-def with_db(act, geometries = geometries):
-  db = get(geometries)
+def with_db(act, geometries = geometries, fp = 'data/db.json'):
+  db = get(geometries, fp)
   ret = act(db)
-  db.to_file()
+  db.to_file(fp)
   return ret

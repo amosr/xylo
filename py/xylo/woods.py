@@ -35,6 +35,10 @@ aluminium = Wood.make_E_G(E = 68.9e9, G = 25.9e9, rho = 2700)
 # https://apacinfrastructure.com.au/material-specifications-6060-t5-aluminium-alloy
 aluminium_6060T5 = Wood.make_E_G(E = 68.9e9, G = 25.8e9, rho = 2700)
 
+# https://beamdimensions.com/materials/Steel/Australian-New_Zealand_Standard_(AS-NZS)/AS-NZS_3679.1/#:~:text=rounds%20and%20squares-,300,300%20Material%20Properties
+steel_3679_1_300 = Wood.make_E_nu(E = 200e9, nu = 0.29, rho = 7850)
+steel_3679_1_300_v2 = Wood.make_E_G(E = 200e9, G = 80e9, rho = 7850)
+
 
 # Test from Numerical simulations of xylophones. I. Time-domain modeling of the vibrating bars (Chaigne, Doutaut, 1997)
 # Inferred properties from supermediocre

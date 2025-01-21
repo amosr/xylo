@@ -12,8 +12,8 @@ import xylo.tuning
 import xylo.database as db
 
 def sweep_find_length(wood, f, bar_template, freqd = 1, mind = 0.0001):
-  l = 0.2
-  ld = 0.1
+  l = 0.5
+  ld = l / 2
   lf = None
   while ld > mind:
     bar = bar_template._replace(length = l)

@@ -95,3 +95,38 @@ def optimize_wood(bar: t.BarProps, wood_base: t.Wood, options: Options, partials
       print(swp.harmonics, (swp.harmonics - partials_measured) / partials_measured, bar.length)
 
   return state, wood(state.best_member)
+
+def optimize_geometry_length(bar: t.BarProps, wood: t.Wood, options: Options, fundamental: float, partials: jnp.ndarray = jnp.array([1.0, 3.0, 6.0]), weights: jnp.ndarray = jnp.array([1.0, 0.3, 0.15]), weight_len = 0.1):
+  sweep_opt = t.FrequencySweep(start_freq = fundamental * 0.1, stop_freq = fundamental * 10, num_freq = 30, bisect_iters = 10)
+  def mk_bar(s):
+    len = s[-1]
+    return bar._replace(length = bar.length * len)
+  def cut(s):
+    return xylo.cut.spline(mk_bar(s), s[0:-1])
+  def loss(s):
+    b = mk_bar(s)
+    return xlh.loss(cut(s), wood, b, sweep_opt, fundamental * partials, weights) + (b.length * weight_len)
+
+  rng = options.rng
+  state = options.strategy.initialize(rng, options.params, init_mean = options.init_mean)
+  for i in range(options.num_generations):
+    rng, rng_gen = jax.random.split(rng, 2)
+    x, state = options.strategy.ask(rng_gen, state, options.params)
+    fitness = jax.vmap(loss, in_axes = 0)(x)
+    fitness = jnp.float32(fitness)
+    state = options.strategy.tell(x, fitness, state, options.params)
+
+    if abs(state.best_fitness) < options.absolute_tolerance:
+      print(f"iteration {i}: reached fitness {state.best_fitness}")
+      return state
+
+    if i % 10 == 0:
+      print(f"iteration {i}")
+      print(state.best_member, state.best_fitness)
+      sections = cut(state.best_member)
+      bar_ = mk_bar(state.best_member)
+      # print(sections.depths)
+      swp = xs.sweep(wood, bar_, sections, t.sweep_default)
+      print(swp.harmonics, swp.harmonics / fundamental, bar_.length)
+
+  return state
