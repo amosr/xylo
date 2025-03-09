@@ -9,10 +9,9 @@ class Just(typing.NamedTuple):
   rows: dict[str,float]
 
   def get_freqs(self):
-    freq = []
-    for r in self.rows:
-      for c in r:
-        freq += [c * self.reference_hz]
+    freq = {}
+    for k,c in self.rows.items():
+      freq[k] = c * self.reference_hz
     return freq
 
 # octave reduction:
@@ -113,38 +112,38 @@ diamond_11_partch = Just(784,
 )
 
 diamond_11_partch_geom = {
-  'A1': Geometry(length=120.0, width=32.0, depth=10.0, weight=1),
-  'B1': Geometry(length=135.0, width=32.0, depth=10.0, weight=1),
-  'B2': Geometry(length=135.0, width=32.0, depth=10.0, weight=1),
+  'A1': Geometry(length=119.0, width=32.0, depth=10.0, weight=1),
+  'B1': Geometry(length=137.0, width=32.0, depth=10.0, weight=1),
+  'B2': Geometry(length=134.0, width=32.0, depth=10.0, weight=1),
   'C1': Geometry(length=150.0, width=32.0, depth=10.0, weight=1),
-  'C2': Geometry(length=150.0, width=32.0, depth=10.0, weight=1),
-  'C3': Geometry(length=150.0, width=32.0, depth=10.0, weight=1),
-  'D1': Geometry(length=165.0, width=32.0, depth=10.0, weight=1),
+  'C2': Geometry(length=152.0, width=32.0, depth=10.0, weight=1),
+  'C3': Geometry(length=151.0, width=32.0, depth=10.0, weight=1),
+  'D1': Geometry(length=166.0, width=32.0, depth=10.0, weight=1),
   'D2': Geometry(length=165.0, width=32.0, depth=10.0, weight=1),
-  'D3': Geometry(length=165.0, width=32.0, depth=10.0, weight=1),
-  'D4': Geometry(length=165.0, width=32.0, depth=10.0, weight=1),
-  'E1': Geometry(length=185.0, width=32.0, depth=10.0, weight=1),
-  'E2': Geometry(length=185.0, width=32.0, depth=10.0, weight=1),
-  'E3': Geometry(length=185.0, width=32.0, depth=10.0, weight=1),
-  'E4': Geometry(length=185.0, width=32.0, depth=10.0, weight=1),
+  'D3': Geometry(length=167.0, width=32.0, depth=10.0, weight=1),
+  'D4': Geometry(length=168.0, width=32.0, depth=10.0, weight=1),
+  'E1': Geometry(length=186.0, width=32.0, depth=10.0, weight=1),
+  'E2': Geometry(length=186.0, width=32.0, depth=10.0, weight=1),
+  'E3': Geometry(length=186.0, width=32.0, depth=10.0, weight=1),
+  'E4': Geometry(length=186.0, width=32.0, depth=10.0, weight=1),
   'E5': Geometry(length=185.0, width=32.0, depth=10.0, weight=1),
-  'F1': Geometry(length=200.0, width=32.0, depth=10.0, weight=1),
+  'F1': Geometry(length=201.0, width=32.0, depth=10.0, weight=1),
   'F2': Geometry(length=200.0, width=32.0, depth=10.0, weight=1),
   'F3': Geometry(length=200.0, width=32.0, depth=10.0, weight=1),
-  'F4': Geometry(length=200.0, width=32.0, depth=10.0, weight=1),
+  'F4': Geometry(length=201.0, width=32.0, depth=10.0, weight=1),
   'F5': Geometry(length=200.0, width=32.0, depth=10.0, weight=1),
   'F6': Geometry(length=200.0, width=32.0, depth=10.0, weight=1),
-  'G1': Geometry(length=210.0, width=50.0, depth=10.0, weight=1),
-  'G2': Geometry(length=210.0, width=50.0, depth=10.0, weight=1),
-  'G3': Geometry(length=210.0, width=50.0, depth=10.0, weight=1),
-  'G4': Geometry(length=210.0, width=50.0, depth=10.0, weight=1),
-  'G5': Geometry(length=210.0, width=50.0, depth=10.0, weight=1),
-  'H1': Geometry(length=230.0, width=50.0, depth=10.0, weight=1),
-  'H2': Geometry(length=230.0, width=50.0, depth=10.0, weight=1),
-  'H3': Geometry(length=230.0, width=50.0, depth=10.0, weight=1),
+  'G1': Geometry(length=211.0, width=50.0, depth=10.0, weight=1),
+  'G2': Geometry(length=211.0, width=50.0, depth=10.0, weight=1),
+  'G3': Geometry(length=213.0, width=50.0, depth=10.0, weight=1),
+  'G4': Geometry(length=212.0, width=50.0, depth=10.0, weight=1),
+  'G5': Geometry(length=211.0, width=50.0, depth=10.0, weight=1),
+  'H1': Geometry(length=232.0, width=50.0, depth=10.0, weight=1),
+  'H2': Geometry(length=231.0, width=50.0, depth=10.0, weight=1),
+  'H3': Geometry(length=232.0, width=50.0, depth=10.0, weight=1),
   'H4': Geometry(length=230.0, width=50.0, depth=10.0, weight=1),
-  'I1': Geometry(length=260.0, width=50.0, depth=10.0, weight=1),
-  'I2': Geometry(length=260.0, width=50.0, depth=10.0, weight=1),
+  'I1': Geometry(length=261.0, width=50.0, depth=10.0, weight=1),
+  'I2': Geometry(length=258.0, width=50.0, depth=10.0, weight=1),
   'I3': Geometry(length=260.0, width=50.0, depth=10.0, weight=1),
   'J1': Geometry(length=275.0, width=50.0, depth=10.0, weight=1),
   'J2': Geometry(length=275.0, width=50.0, depth=10.0, weight=1),
