@@ -77,4 +77,4 @@ class FrequencySweep(NamedTuple):
 
 
 # C8 is 4KHz and we tune to sixth partial, so run sweep to around 30KHz
-sweep_default = FrequencySweep(start_freq = 100, stop_freq = 30000, num_freq = 100, bisect_iters = 16)
+sweep_default = FrequencySweep(start_freq = 25, stop_freq = 30000, num_freq = 100, bisect_iters = 16)

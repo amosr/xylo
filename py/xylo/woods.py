@@ -10,6 +10,13 @@ tasmanian_oak = Wood.make_E_G(E = 6.067e9, G = 16.0303e9, rho = 611.0152)
 # A Comparative Study of using Static and Ultrasonic Material Testing Methods to Determine the Anisotropic Material Properties of Wood, Dackerman et al
 spotted_gum = Wood.make_E_nu(E = 26.100e9, nu = 0.49, rho = 990)
 
+# Eucalyptus pilularis
+# G and nu unknown for blackbutt, leaving same as spotted gum
+blackbutt = Wood.make_E_nu(E = 19.000e9, nu = 0.49, rho = 900)
+
+# Eucalyptus microcorys
+tallowwood = Wood.make_E_nu(E = 18.000e9, nu = 0.46, rho = 990)
+
 # eastern indian rosewood
 # https://www.matweb.com/search/datasheet.aspx?matguid=e3b5a2a1a6794cddb47a91fbea57c18a&ckck=1
 # eastern_indian_rosewood = Wood(E = 
