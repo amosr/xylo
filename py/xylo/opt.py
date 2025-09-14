@@ -96,13 +96,13 @@ def optimize_wood(bar: t.BarProps, wood_base: t.Wood, options: Options, partials
 
   return state, wood(state.best_member)
 
-def optimize_geometry_length(bar: t.BarProps, wood: t.Wood, options: Options, fundamental: float, partials: jnp.ndarray = jnp.array([1.0, 3.0, 6.0]), weights: jnp.ndarray = jnp.array([1.0, 0.3, 0.15]), weight_len = 0.1):
+def optimize_geometry_length(bar: t.BarProps, wood: t.Wood, options: Options, fundamental: float, partials: jnp.ndarray = jnp.array([1.0, 3.0, 6.0]), weights: jnp.ndarray = jnp.array([1.0, 0.3, 0.15]), weight_len = 0.1, max_spread = 0.8):
   sweep_opt = t.FrequencySweep(start_freq = fundamental * 0.1, stop_freq = fundamental * 10, num_freq = 30, bisect_iters = 10)
   def mk_bar(s):
     len = s[-1]
     return bar._replace(length = bar.length * len)
   def cut(s):
-    return xylo.cut.spline(mk_bar(s), s[0:-1])
+    return xylo.cut.spline(mk_bar(s), s[0:-1], max_spread)
   def loss(s):
     b = mk_bar(s)
     return xlh.loss(cut(s), wood, b, sweep_opt, fundamental * partials, weights) + (b.length * weight_len)

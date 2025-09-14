@@ -13,11 +13,12 @@ class Geometry(NamedTuple):
   depth: float
   weight: float
 
-  def to_bar(self, elements = 300, min_depth_mul = 0.25) -> t.BarProps:
+  def to_bar(self, elements = 300, min_depth_mul = 0.25, min_depth_abs = None) -> t.BarProps:
     l = np.mean(self.length) / 1000.0
     w = np.mean(self.width) / 1000.0
     d = np.mean(self.depth) / 1000.0
-    return t.BarProps(width = w, length = l, depth = d, elements = elements, min_depth = d * min_depth_mul)
+    min_depth = min_depth_abs if min_depth_abs is not None else d * min_depth_mul
+    return t.BarProps(width = w, length = l, depth = d, elements = elements, min_depth = min_depth)
 
   def to_wood(self, base: t.Wood, coeffs) -> t.Wood:
     b = self.to_bar()

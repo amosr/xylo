@@ -55,3 +55,47 @@ mingming = Wood.make_E_G(E = 17.96e9, G = 6.75e9, rho = 837.187565)
 
 # from Mingming: "Suits (2001) set the values of E=14.7GPa and G=E/10 to achieve acceptable results for oak bars"
 suits_oak = Wood.make_E_G(E = 14.7e9, G = 1.47e9, rho = 760)
+
+####### Native
+
+# anagote.com
+# 120x30
+# padauk
+# oregon pine
+# new guinea rosewood
+# tasmania blackwood
+
+# Acacia melanoxylon, G unknown, try E/10
+blackwood = Wood.make_E_G(E = 14.8e9, G = 1.5e9, rho = 650)
+
+######## Exotic woods of interest
+
+# Pterocarpus indicus
+# G unknown, try E/10
+new_guinea_rosewood = Wood.make_E_G(E = 11.89e9, G=1.19e9, rho = 655)
+
+# janka hardness 3.2kN
+# https://www.scielo.cl/scielo.php?script=sci_arttext&pid=S0718-221X2021000100427
+# Poisson 0.30-0.44?
+pinus_radiata = Wood.make_E_nu(E = 10.06e9, nu=0.3, rho = 515)
+
+
+########## Classic tonewoods
+
+# Pterocarpus soyauxii, African padauk
+african_padauk = Wood.make_E_nu(E = 13.1e9, nu=0.25, rho = 745)
+
+# Douglas fir, Pseudotsuga menziesii
+# sounds very good on 81Hz bar
+# janka hardness 2.8kN
+# poisson 0.292
+oregon_pine = Wood.make_E_nu(E = 12.17e9, nu = 0.292, rho = 510)
+
+# Spruce
+# janka hardness 1.7kN
+# norway_spruce = Wood.make_E_G(E = 9.7e9, nu = ..., rho = 405)
+
+# Sitka spruce hardness 2.3kN
+# E between 6e9 to 11e9, average 6.8e9? wood database claims 11e9, US forestry claims 10.8e9
+# poisson 0.372
+sitka_spruce = Wood.make_E_nu(E = 10.8e9, nu = 0.372, rho = 425)

@@ -170,15 +170,26 @@ diamond_13_forster = Just(784, [
 
 # bass marimba layout from genesis of a music
 bass_partch = Just(784 / 4,
-  mul(   1.00, {'A#3': 7/6})   | # 228.6..
-  mul(   1.00, {'A3':  9/8})   | # 220.5
-  mul(   0.50, {'F#3': 11/6})  | # 179.6..
-  mul(   0.50, {'F3':  16/9})  | # 174.2..
-  mul(   0.50, {'D#3': 8/5})   | # 156.8  len 437x25
-  mul(   0.50, {'C#3': 16/11}) | # 142.54.. -- white mahogany 120x30x490
-  mul(   0.50, {'A2':  8/7})   | # 112      -- blackbutt 136x33x640
-  mul(   0.50, {'G2':  1/1})   | # 98     len 554x25
-  mul(   0.25, {'E2':  5/3})   | # 81.6..
-  mul(   0.25, {'D2':  3/2})   | # 73.5
-  mul(   0.25, {'C2':  4/3})     # 65.3.. len 680x25
+  mul(   1.00, {'A#3': 7/6})   | # 228.6Hz:  582x33 or
+  mul(   1.00, {'A3':  9/8})   | # 220.5Hz:  564x33
+  mul(   0.50, {'F#3': 11/6})  | # 179.6Hz:  561x33
+  mul(   0.50, {'F3':  16/9})  | # 174.2Hz:  537x33
+  mul(   0.50, {'D#3': 8/5})   | # 156.8Hz:  437x25, 566x33
+  mul(   0.50, {'C#3': 16/11}) | # 142.54Hz: --X white mahogany 120x30x490
+  mul(   0.50, {'A2':  8/7})   | # 112Hz:    --X blackbutt 136x33x640
+  mul(   0.50, {'G2':  1/1})   | # 98Hz:     554x25, 720x33
+  mul(   0.25, {'E2':  5/3})   | # 81.6Hz:   --/ oregon pine     515x35
+  mul(   0.25, {'D2':  3/2})   | # 73.5Hz:   --X white mahogany? 830x33
+  mul(   0.25, {'C2':  4/3})     # 65.3Hz:   --X reclaimed wharf? 680x25
 )
+# 228.6Hz:          582x33 or
+# 220.5Hz:          564x33
+# 179.6Hz:          561x33
+# 174.2Hz:          537x33
+# 156.8Hz:  437x25, 566x33
+# 142.54Hz: --X white mahogany 120x30x490
+# 112Hz:    --X blackbutt 136x33x640
+# 98Hz:     554x25, 720x33, 621x30
+# 81.6Hz:           789x33, 668x30
+# 73.5Hz:   --X white mahog 702x30
+# 65.3Hz:   --X reclaimed wharf? 680x25
